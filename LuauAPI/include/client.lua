@@ -370,6 +370,7 @@ function Bridge:SyncFiles()
 	end) if not success then
 		StarterGui:SetCore("SendNotification", {
 			Title = "[LuauDev]",
+			Icon = "rbxassetid://128338963595620",
 			Text = "Could not sync virtual files from client to external. Server was closed or it is being overloaded"
 		})
 		return
