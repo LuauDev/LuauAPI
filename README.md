@@ -38,3 +38,50 @@ vcpkg install xxhash zstd openssl
 ```
 
 The proper version of **httplib** is already included in this project.
+
+## 🚀 Installation
+To set up LuauAPI on your local machine, follow these steps:
+
+1. **Clone the repository**:
+    ```sh
+    git clone https://github.com/yourusername/LuauAPI.git
+    cd LuauAPI
+    ```
+
+2. **Install dependencies** using vcpkg:
+    ```sh
+    vcpkg install xxhash zstd openssl
+    ```
+
+3. **Build the project**:
+    ```sh
+    mkdir build
+    cd build
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
+    cmake --build . --config Release
+    ```
+
+## 📖 Usage
+To use LuauAPI, follow these instructions:
+
+1. **Launch Roblox** and navigate to the desired game.
+2. **Open LuauAPI**.
+3. **Insert your scripts** into the designated input area.
+4. **Execute** the script and enjoy!
+
+### Example Script
+Here’s a simple example of a script you might run:
+
+```lua
+-- Example script to print Hello, World!
+print("Hello, World!")
+```
+
+## 🤝 Community Support
+Join our community for support, updates, and collaboration:
+
+- **Discord**: [Join our server](https://discord.gg/yourdiscordlink)
+- **Issues**: If you encounter any bugs, please report them on [GitHub Issues](https://github.com/yourusername/LuauAPI/issues).
+
+## 📜 License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
