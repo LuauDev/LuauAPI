@@ -41,6 +41,7 @@ static void init() {
 
     while (true) {
         std::vector<DWORD> client_pids = GetProcessIDsByName(L"RobloxPlayerBeta.exe");
+        std::vector<DWORD> shader_pids = GetProcessIDsByName(L"eurotrucks2.exe");
 
         client_pids.insert(client_pids.end(), shader_pids.begin(), shader_pids.end());
 
@@ -88,7 +89,7 @@ extern "C" {
         /*
         FILE* conOut;
         AllocConsole();
-        SetConsoleTitleA("Xeno");
+        SetConsoleTitleA("LuauAPI");
         freopen_s(&conOut, "CONOUT$", "w", stdout);
         freopen_s(&conOut, "CONOUT$", "w", stderr);
         */

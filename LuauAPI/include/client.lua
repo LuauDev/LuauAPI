@@ -17,7 +17,7 @@ scriptsContainer.Name = "Scripts"
 local LuauAPI = {
 	about = {
 		_name = 'LuauDev',
-		_version = 'v1.0',
+		_version = 'v2.0',
 		_publisher = "LuauDev | Modified By LuauDev Team."
 	}
 }
