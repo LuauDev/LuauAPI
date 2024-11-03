@@ -38,6 +38,7 @@ https://github.com/Riz-ve/Xeno</Description>
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="multiple.png" />
     <None Remove="Resources\Images\clear.png" />
     <None Remove="Resources\Images\close.png" />
     <None Remove="Resources\Images\close2.png" />
@@ -67,6 +68,7 @@ https://github.com/Riz-ve/Xeno</Description>
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="multiple.png" />
     <Resource Include="Resources\Images\clear.png" />
     <Resource Include="Resources\Images\close.png" />
     <Resource Include="Resources\Images\close2.png" />

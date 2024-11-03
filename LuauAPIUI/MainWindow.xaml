@@ -190,5 +190,20 @@
                    Width="25"
                    Height="25" ToolTip="Open"/>
         </Button>
+        <Button Style="{StaticResource TitleBarButtonStyle}" HorizontalAlignment="Left"
+                x:Name="buttonInject"
+                Height="30"
+                Margin="540,325,0,0"
+                Grid.Row="1"
+                VerticalAlignment="Top"
+                Width="30"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Cursor="Hand"
+                Click="buttonInject_Click">
+            <Image Source="/multiple.png"
+                   Width="25"
+                   Height="25" ToolTip="Inject" />
+        </Button>
     </Grid>
 </Window>

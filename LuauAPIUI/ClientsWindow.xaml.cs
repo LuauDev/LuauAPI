@@ -41,7 +41,6 @@ namespace XenoUI
 		{
 			InitializeComponent();
 			LoadSupportedVersion();
-			Initialize();
 			MouseLeftButtonDown += (_, _) => DragMove();
 
 			_timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
@@ -142,5 +141,10 @@ namespace XenoUI
 		}
 
 		private void buttonClose_Click(object sender, RoutedEventArgs e) => Hide();
+
+		public void InjectRoblox()
+		{
+			Initialize();
+		}
 	}
 }

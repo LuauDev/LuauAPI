@@ -194,5 +194,19 @@ namespace XenoUI
 			if (window.IsVisible) window.Hide();
 			else window.Show();
 		}
+
+		private async void buttonInject_Click(object sender, RoutedEventArgs e)
+		{
+			try 
+			{
+				_clientsWindow.InjectRoblox();
+				buttonInject.IsEnabled = false;
+				buttonInject.ToolTip = "Already Injected";
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Failed to inject: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
 	}
 }
