@@ -16,9 +16,9 @@ scriptsContainer.Name = "Scripts"
 
 local LuauAPI = {
 	about = {
-		_name = 'Xeno',
-		_version = '%XENO_VERSION%',
-		_publisher = ".rizve | https://rizve.us.to"
+		_name = 'LuauDev',
+		_version = 'v0.1',
+		_publisher = "LuauDev | skidded by skidder.lol"
 	}
 }
 table.freeze(LuauAPI.about)
