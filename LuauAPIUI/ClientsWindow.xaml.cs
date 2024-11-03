@@ -10,7 +10,7 @@ namespace XenoUI
 {
 	public partial class ClientsWindow : Window
 	{
-		public string XenoVersion = "1.0.85";
+		public string LuauAPIVersion = "1.0.85";
 
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
 		public struct ClientInfo
@@ -20,16 +20,16 @@ namespace XenoUI
 			public int id;
 		}
 
-		[DllImport("Xeno.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("LuauAPI.dll", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void Initialize();
 
-		[DllImport("Xeno.dll", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport("LuauAPI.dll", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr GetClients();
 
-		[DllImport("Xeno.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		[DllImport("LuauAPI.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		private static extern void Execute(byte[] scriptSource, string[] clientUsers, int numUsers);
 
-		[DllImport("Xeno.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		[DllImport("LuauAPI.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		private static extern IntPtr Compilable(byte[] scriptSource);
 
 		private readonly DispatcherTimer _timer;
@@ -55,9 +55,9 @@ namespace XenoUI
 			{
 				using var client = new HttpClient();
 				string latestVersion = await client.GetStringAsync("https://rizve.us.to/Xeno/LatestVersion");
-				if (latestVersion != XenoVersion)
+				if (latestVersion != LuauAPIVersion)
 				{
-					MessageBox.Show($"The current version {XenoVersion} is outdated.\n\nPlease download the latest version of Xeno ({latestVersion}) here: https://discord.gg/fQNzTw2JXn", "Outdated Xeno version", MessageBoxButton.OK, MessageBoxImage.Warning);
+					MessageBox.Show($"The current version {LuauAPIVersion} is outdated.\n\nPlease download the latest version of Xeno ({latestVersion}) here: https://discord.gg/fQNzTw2JXn", "Outdated Xeno version", MessageBoxButton.OK, MessageBoxImage.Warning);
 					Application.Current.Shutdown();
 				}
 				SupportedVersion = await client.GetStringAsync("https://rizve.us.to/Xeno/AcceptedVersion");
