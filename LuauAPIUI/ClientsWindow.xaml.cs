@@ -139,10 +139,6 @@ namespace XenoUI
 			{
 				await Task.Delay(5);
 			}
-			if (SupportedVersion != client.version)
-			{
-				MessageBox.Show($"Xeno might not be compatible on the client {client.name} with {client.version}\n\nSupported version: {SupportedVersion}\n\nClick OK to continue using Xeno.", "Version Mismatch", MessageBoxButton.OK, MessageBoxImage.Warning);
-			}
 		}
 
 		private void buttonClose_Click(object sender, RoutedEventArgs e) => Hide();
