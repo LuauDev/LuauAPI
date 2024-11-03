@@ -6,10 +6,10 @@ local HttpService, UserInputService, InsertService = game:FindService("HttpServi
 local RunService, CoreGui, StarterGui = game:GetService("RunService"), game:FindService("CoreGui"), game:GetService("StarterGui")
 local VirtualInputManager, RobloxReplicatedStorage = Instance.new("VirtualInputManager"), game:GetService("RobloxReplicatedStorage")
 
-if RobloxReplicatedStorage:FindFirstChild("Xeno") then return end
+if RobloxReplicatedStorage:FindFirstChild("LuauDev") then return end
 
 local XenoContainer = Instance.new("Folder", RobloxReplicatedStorage)
-XenoContainer.Name = "Xeno"
+XenoContainer.Name = "LuauDev"
 local objectPointerContainer, scriptsContainer = Instance.new("Folder", XenoContainer), Instance.new("Folder", XenoContainer)
 objectPointerContainer.Name = "Instance Pointers"
 scriptsContainer.Name = "Scripts"
@@ -17,8 +17,8 @@ scriptsContainer.Name = "Scripts"
 local LuauAPI = {
 	about = {
 		_name = 'LuauDev',
-		_version = 'v0.1',
-		_publisher = "LuauDev | skidded by skidder.lol"
+		_version = 'v1.0',
+		_publisher = "LuauDev | Modified By LuauDev Team."
 	}
 }
 table.freeze(LuauAPI.about)
@@ -71,7 +71,7 @@ local libs = {
 
 if script.Name == "VRNavigation" then
 	StarterGui:SetCore("SendNotification", {
-		Title = "[Xeno]",
+		Title = "[LuauDev]",
 		Text = "Used ingame method. When you leave the game it might crash!"
 	})
 end
@@ -270,7 +270,7 @@ function Bridge:InternalRequest(body, timeout)
 	end)
 
 	if success and result then
-		error("XENO SERVER ERROR: " .. tostring(result), 2)
+		error("LuauDev Server Error: " .. tostring(result), 2)
 	end
 
 	error("An unknown error occured by the server.", 2)
@@ -369,7 +369,7 @@ function Bridge:SyncFiles()
 		getAllFiles("./")
 	end) if not success then
 		StarterGui:SetCore("SendNotification", {
-			Title = "[Xeno]",
+			Title = "[LuauDev]",
 			Text = "Could not sync virtual files from client to external. Server was closed or it is being overloaded"
 		})
 		return
@@ -463,7 +463,7 @@ function Bridge:loadstring(source, chunkName)
 			end
 
 			if (tick() - clock > 5) then
-				warn("[XENO]: loadstring failed and timed out")
+				warn("[LuauDev]: loadstring failed and timed out")
 				for _, module in pairs(cachedModules) do
 					module:Destroy()
 				end

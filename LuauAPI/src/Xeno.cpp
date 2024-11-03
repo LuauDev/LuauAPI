@@ -41,7 +41,6 @@ static void init() {
 
     while (true) {
         std::vector<DWORD> client_pids = GetProcessIDsByName(L"RobloxPlayerBeta.exe");
-        std::vector<DWORD> shader_pids = GetProcessIDsByName(L"eurotrucks2.exe");
 
         client_pids.insert(client_pids.end(), shader_pids.begin(), shader_pids.end());
 
