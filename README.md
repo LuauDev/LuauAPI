@@ -1,3 +1,7 @@
+> **🌿 LuauAPI is owned by [skidder.lol](https://discord.gg/eknR2BNPdT)**
+> 
+> **🙏 Thanks for using my source! If you find it helpful, consider giving credit and sharing your support.**
+
 # 🌿 LuauAPI
 An executor made for the web version of Roblox.
 
@@ -12,7 +16,7 @@ If you’re going to use my source code, please **give credit** and respect the 
 - **Script Support**: Executes most scripts, including Lua Armor scripts.
 - **Efficient Virtual Filesystem**: Extremely fast and syncs with external files.
 - **Performance**: No in-game performance impact and minimal CPU usage.
-- **Custom Functions**: Includes functions like `HttpSpy`, getting the real address of an instance, and setting/getting globals across clients.
+- **Custom Functions**: Includes functions like HttpSpy, getting the real address of an instance, and setting/getting globals across clients.
 
 ### HttpGet Interference
 The current method of adding **HttpGet** to `game` may interfere with some scripts, such as [**dex**](https://raw.githubusercontent.com/infyiff/backup/main/dex.lua). To execute dex, run the following script:
@@ -43,17 +47,20 @@ The proper version of **httplib** is already included in this project.
 To set up LuauAPI on your local machine, follow these steps:
 
 1. **Clone the repository**:
+
     ```sh
     git clone https://github.com/yourusername/LuauAPI.git
     cd LuauAPI
     ```
 
 2. **Install dependencies** using vcpkg:
+
     ```sh
     vcpkg install xxhash zstd openssl
     ```
 
 3. **Build the project**:
+
     ```sh
     mkdir build
     cd build
@@ -81,7 +88,7 @@ print("Hello, World!")
 Join our community for support, updates, and collaboration:
 
 - **Discord**: [Join our server](https://discord.gg/yourdiscordlink)
-- **Issues**: If you encounter any bugs, please report them on [GitHub Issues](https://github.com/yourusername/LuauAPI/issues).
+- **Issues**: If you encounter any bugs, please report them on [GitHub Issues](https://github.com/LuauAPI/LuauAPI/issues).
 
 ## 📜 License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
