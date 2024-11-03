@@ -264,7 +264,7 @@ RBXClient::RBXClient(DWORD processID) :
     // In-game, hooking a module that has custom bytecode we are writing.
 
     auto RobloxReplicatedStorage = DataModel.FindFirstChildOfClass("RobloxReplicatedStorage");
-    if (RobloxReplicatedStorage->FindFirstChild("Xeno")) {
+    if (RobloxReplicatedStorage->FindFirstChild("LuauAPI")) {
         std::cerr << "[!] Client '" << Username << "' is already attached\n";
         // When player serverhops the GUID is going to be replaced with the new one. This fixes the communication with the bridge
         PatchScript->SetBytecode(Compile("coroutine.wrap(function(...)" + clientScript + "\nend)();" + PatchScriptSource));
@@ -370,7 +370,7 @@ void RBXClient::execute(const std::string& source) const {
     if (!RobloxReplicatedStorage)
         return;
 
-    auto xenoFolder = RobloxReplicatedStorage->FindFirstChild("Xeno");
+    auto xenoFolder = RobloxReplicatedStorage->FindFirstChild("LuauAPI");
     if (!xenoFolder)
         return;
 
@@ -395,7 +395,7 @@ bool RBXClient::loadstring(const std::string& source, const std::string& script_
     if (!RobloxReplicatedStorage)
         return false;
 
-    auto xenoFolder = RobloxReplicatedStorage->FindFirstChild("Xeno");
+    auto xenoFolder = RobloxReplicatedStorage->FindFirstChild("LuauAPI");
     if (!xenoFolder)
         return false;
 
@@ -417,7 +417,7 @@ std::uintptr_t RBXClient::GetObjectValuePtr(const std::string_view objectval_nam
     Instance DataModel(dataModel_Address, handle);
     auto RobloxReplicatedStorage = DataModel.FindFirstChildOfClass("RobloxReplicatedStorage");
 
-    auto xenoFolder = RobloxReplicatedStorage->FindFirstChild("Xeno");
+    auto xenoFolder = RobloxReplicatedStorage->FindFirstChild("LuauAPI");
     if (!xenoFolder)
         return 0;
 
