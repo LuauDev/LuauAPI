@@ -57,7 +57,7 @@ This project uses the following libraries:
 Dependencies are managed with [**vcpkg**](https://github.com/microsoft/vcpkg). Install them with this command:
 
 ```sh
-vcpkg install xxhash zstd openssl
+vcpkg install xxhash zstd
 ```
 
 The proper version of **httplib** is already included in this project.
