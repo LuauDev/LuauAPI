@@ -18,7 +18,7 @@ If you’re going to use my source code, please **give credit** and respect the 
 
 2. **Install Dependencies**:
    ```sh
-   vcpkg install xxhash zstd openssl
+   vcpkg install xxhash zstd
    ```
 
 3. **Build the Project**:
@@ -57,7 +57,7 @@ This project uses the following libraries:
 Dependencies are managed with [**vcpkg**](https://github.com/microsoft/vcpkg). Install them with this command:
 
 ```sh
-vcpkg install xxhash zstd
+vcpkg install xxhash zstd openssl
 ```
 
 The proper version of **httplib** is already included in this project.
