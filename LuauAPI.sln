@@ -5,7 +5,7 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuauAPI", "LuauAPI\LuauAPI.vcxproj", "{DFA6B21C-4DF6-4655-93C7-DCBB5E63CC66}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuauAPIUI", "LuauAPIUI\LuauAPIUI.csproj", "{42F60DE4-73A7-4BE5-8265-4849C9D8337A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuauUI", "LuauAPIUI\LuauUI.csproj", "{42F60DE4-73A7-4BE5-8265-4849C9D8337A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
