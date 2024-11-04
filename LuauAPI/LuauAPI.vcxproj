@@ -231,7 +231,7 @@
     <ClCompile Include="src\Luau\ValueTracking.cpp" />
     <ClCompile Include="src\server.cpp" />
     <ClCompile Include="src\worker.cpp" />
-    <ClCompile Include="src\Xeno.cpp" />
+    <ClCompile Include="src\LuauAPI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Xeno.rc" />

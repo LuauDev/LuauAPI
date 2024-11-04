@@ -119,7 +119,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Xeno.cpp">
+    <ClCompile Include="src\LuauAPI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\utils\ntdll.cpp">
