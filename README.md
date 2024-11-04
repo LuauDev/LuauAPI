@@ -14,6 +14,7 @@ If you’re going to use my source code, please **give credit** and respect the 
 1. **Install Prerequisites**:
    - Install [Visual Studio](https://visualstudio.microsoft.com/)
    - Install [vcpkg](https://github.com/microsoft/vcpkg)
+   - Install [OpenSSL](https://slproweb.com/products/Win32OpenSSL.html) (Non-light verison)
 
 2. **Install Dependencies**:
    ```sh
