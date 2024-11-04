@@ -46,7 +46,9 @@ https://github.com/Riz-ve/Xeno</Description>
     <None Remove="Resources\Images\maximize.png" />
     <None Remove="Resources\Images\minimize.png" />
     <None Remove="Resources\Images\multiple.png" />
+    <None Remove="Resources\Images\power-plug-outline.png" /> 
     <None Remove="Resources\Images\normalize.png" />
+    <None Remove="Resources\Images\power-plug.png" />
     <None Remove="Resources\Images\open.png" />
     <None Remove="Resources\Images\save.png" />
     <None Remove="Resources\Images\scripts.png" />
@@ -79,6 +81,8 @@ https://github.com/Riz-ve/Xeno</Description>
     <Resource Include="Resources\Images\multiple.png" />
     <Resource Include="Resources\Images\normalize.png" />
     <Resource Include="Resources\Images\open.png" />
+    <Resource Include="Resources\Images\power-plug-outline.png" />
+    <Resource Include="Resources\Images\power-plug.png" />
     <Resource Include="Resources\Images\save.png" />
     <Resource Include="Resources\Images\scripts.png" />
   </ItemGroup>

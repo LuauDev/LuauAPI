@@ -202,6 +202,7 @@ namespace XenoUI
 				_clientsWindow.InjectRoblox();
 				buttonInject.IsEnabled = false;
 				buttonInject.ToolTip = "Already Injected";
+				injectImage.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/power-plug.png"));
 			}
 			catch (Exception ex)
 			{
