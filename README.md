@@ -10,6 +10,24 @@ LuauAPI uses a common method of writing unsigned bytecode into a Roblox core mod
 ## ⚠️ Important Note
 If you’re going to use my source code, please **give credit** and respect the license. Don't be like those who have used my entire source code without attribution or have distributed it as their own.
 
+## 🛠️ Build Instructions
+1. **Install Prerequisites**:
+   - Install [Visual Studio](https://visualstudio.microsoft.com/)
+   - Install [vcpkg](https://github.com/microsoft/vcpkg)
+
+2. **Install Dependencies**:
+   ```sh
+   vcpkg install xxhash zstd openssl
+   ```
+
+3. **Build the Project**:
+   - Open the `.sln` file with Visual Studio
+   - Set build configuration to `Release` and platform to `x64`
+   - Click Build > Build Solution (or press F7)
+   - Start the project (F5)
+
+⚠️ **Having Issues?** Report them in our [GitHub Issues](https://github.com/LuauDev/LuauAPI/issues)
+
 ## 🌟 Features
 - **Fast Execution**: Enjoy quick script execution without lag.
 - **Multi-Instance Compatibility**: Run multiple instances seamlessly.
@@ -43,31 +61,6 @@ vcpkg install xxhash zstd openssl
 
 The proper version of **httplib** is already included in this project.
 
-## 🚀 Installation
-To set up LuauAPI on your local machine, follow these steps:
-
-1. **Clone the repository**:
-
-    ```sh
-    git clone https://github.com/yourusername/LuauAPI.git
-    cd LuauAPI
-    ```
-
-2. **Install dependencies** using vcpkg:
-
-    ```sh
-    vcpkg install xxhash zstd openssl
-    ```
-
-3. **Build the project**:
-
-    ```sh
-    mkdir build
-    cd build
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
-    cmake --build . --config Release
-    ```
-
 ## 📖 Usage
 To use LuauAPI, follow these instructions:
 
@@ -87,7 +80,7 @@ print("Hello, World!")
 ## 🤝 Community Support
 Join our community for support, updates, and collaboration:
 
-- **Discord**: [Join our server](https://discord.gg/yourdiscordlink)
+- **Discord**: [Join our server](https://discord.gg/e8r2mWRA)
 - **Issues**: If you encounter any bugs, please report them on [GitHub Issues](https://github.com/LuauAPI/LuauAPI/issues).
 
 ## 📜 License
