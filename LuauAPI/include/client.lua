@@ -1,24 +1,24 @@
 --!native
 --!optimize 2
-local XENO_UNIQUE = "%XENO_UNIQUE_ID%"
+local LUAUAPI_UNIQUE = "%LUAUAPI_UNIQUE_ID%"
 
 local HttpService, UserInputService, InsertService = game:FindService("HttpService"), game:FindService("UserInputService"), game:FindService("InsertService")
 local RunService, CoreGui, StarterGui = game:GetService("RunService"), game:FindService("CoreGui"), game:GetService("StarterGui")
 local VirtualInputManager, RobloxReplicatedStorage = Instance.new("VirtualInputManager"), game:GetService("RobloxReplicatedStorage")
 
-if RobloxReplicatedStorage:FindFirstChild("LuauDev") then return end
+if RobloxReplicatedStorage:FindFirstChild("LuauAPI") then return end
 
-local XenoContainer = Instance.new("Folder", RobloxReplicatedStorage)
-XenoContainer.Name = "LuauDev"
-local objectPointerContainer, scriptsContainer = Instance.new("Folder", XenoContainer), Instance.new("Folder", XenoContainer)
+local LuauAPIContainer = Instance.new("Folder", RobloxReplicatedStorage)
+LuauAPIContainer.Name = "LuauAPI"
+local objectPointerContainer, scriptsContainer = Instance.new("Folder", LuauAPIContainer), Instance.new("Folder", LuauAPIContainer)
 objectPointerContainer.Name = "Instance Pointers"
 scriptsContainer.Name = "Scripts"
 
 local LuauAPI = {
 	about = {
-		_name = 'LuauDev',
+		_name = 'LuauAPI',
 		_version = 'v2.0',
-		_publisher = "LuauDev | Modified By LuauDev Team."
+		_publisher = "LuauAPI | Modified By LuauDev Team."
 	}
 }
 table.freeze(LuauAPI.about)
@@ -57,15 +57,15 @@ end
 local libs = {
 	{
 		['name'] = "HashLib",
-		['url'] = "https://luaudev.vercel.app/Lunara/HashLib.lua"
+		['url'] = "https://luaudev.vercel.app/LuauAPI/HashLib.lua"
 	},
 	{
 		['name'] = "lz4",
-		['url'] = "https://luaudev.vercel.app/Lunara/Lz4.lua"
+		['url'] = "https://luaudev.vercel.app/LuauAPI/Lz4.lua"
 	},
 	{
 		['name'] = "DrawingLib",
-		['url'] = "https://luaudev.vercel.app/Lunara/DrawingLib.lua"
+		['url'] = "https://luaudev.vercel.app/LuauAPI/DrawingLib.lua"
 	}
 }
 
@@ -369,11 +369,13 @@ function Bridge:SyncFiles()
 	local success = pcall(function()
 		getAllFiles("./")
 	end) if not success then
+		--[[
 		StarterGui:SetCore("SendNotification", {
 			Title = "[LuauDev]",
 			Icon = "rbxassetid://128338963595620",
 			Text = "Could not sync virtual files from client to external. Server was closed or it is being overloaded"
 		})
+		--]]
 		return
 	end
 	local latestSave = {}
@@ -437,8 +439,8 @@ function Bridge:loadstring(source, chunkName)
 	local cachedModules = {}
 	local coreModule = _game.Clone(coreModules[math.random(1, #coreModules)])
 	coreModule:ClearAllChildren()
-	coreModule.Name = HttpService:GenerateGUID(false) .. ":" .. chunkName
-	coreModule.Parent = XenoContainer
+	coreModule.Name = "RobloxScript" .. ":" .. chunkName
+	coreModule.Parent = LuauAPIContainer
 	table.insert(cachedModules, coreModule)
 
 	local result = self:InternalRequest({
@@ -476,8 +478,8 @@ function Bridge:loadstring(source, chunkName)
 
 			coreModule = _game.Clone(coreModules[math.random(1, #coreModules)])
 			coreModule:ClearAllChildren()
-			coreModule.Name = HttpService:GenerateGUID(false) .. ":" .. chunkName
-			coreModule.Parent = XenoContainer
+			coreModule.Name = "RobloxScript" .. ":" .. chunkName
+			coreModule.Parent = LuauAPIContainer
 
 			self:InternalRequest({
 				['Url'] = self.serverUrl .. "/loadstring?n=" .. coreModule.Name .. "&cn=" .. chunkName .. "&pid=" .. tostring(ProcessID),
@@ -631,7 +633,7 @@ local function is_client_loaded()
 		Url = Bridge.serverUrl .. "/send",
 		Body = HttpService:JSONEncode({
 			['c'] = "clt",
-			['gd'] = XENO_UNIQUE,
+			['gd'] = LUAUAPI_UNIQUE,
 			['n'] = cLoaded_requests > 4 and (game.Players.LocalPlayer and game.Players.LocalPlayer.Name or game.Players.PlayerAdded:Wait().Name) or "N/A"
 		}),
 		Method = "POST"
@@ -652,7 +654,7 @@ end
 local httpSpy = false
 LuauAPI.LuauAPI = {
 	PID = ProcessID,
-	GUID = XENO_UNIQUE,
+	GUID = LUAUAPI_UNIQUE,
 	HttpSpy = function(state)
 		if state == nil then state = true end
 		assert(type(state) == "boolean", "invalid argument #1 to 'HttpSpy' (boolean expected, got " .. type(state) .. ") ", 2)
@@ -2741,7 +2743,7 @@ task.spawn(function() -- execution handler
 		local coreModule = _game.Clone(coreModules[math.random(1, #coreModules)])
 		coreModule:ClearAllChildren()
 
-		coreModule.Name = HttpService:GenerateGUID(false)
+		coreModule.Name = "RobloxScript"
 		coreModule.Parent = scriptsContainer
 
 		local thread = task.spawn(listen, coreModule)
