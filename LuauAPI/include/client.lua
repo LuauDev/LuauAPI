@@ -439,7 +439,7 @@ function Bridge:loadstring(source, chunkName)
 	local cachedModules = {}
 	local coreModule = _game.Clone(coreModules[math.random(1, #coreModules)])
 	coreModule:ClearAllChildren()
-	coreModule.Name = "RobloxScript" .. ":" .. chunkName
+	coreModule.Name = HttpService:GenerateGUID(false) .. ":" .. chunkName
 	coreModule.Parent = LuauAPIContainer
 	table.insert(cachedModules, coreModule)
 
@@ -478,7 +478,7 @@ function Bridge:loadstring(source, chunkName)
 
 			coreModule = _game.Clone(coreModules[math.random(1, #coreModules)])
 			coreModule:ClearAllChildren()
-			coreModule.Name = "RobloxScript" .. ":" .. chunkName
+			coreModule.Name = HttpService:GenerateGUID(false) .. ":" .. chunkNam
 			coreModule.Parent = LuauAPIContainer
 
 			self:InternalRequest({
