@@ -38,20 +38,8 @@ https://github.com/Riz-ve/Xeno</Description>
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="multiple.png" />
-    <None Remove="Resources\Images\clear.png" />
-    <None Remove="Resources\Images\close.png" />
-    <None Remove="Resources\Images\close2.png" />
-    <None Remove="Resources\Images\execute.png" />
-    <None Remove="Resources\Images\maximize.png" />
-    <None Remove="Resources\Images\minimize.png" />
-    <None Remove="Resources\Images\multiple.png" />
-    <None Remove="Resources\Images\power-plug-outline.png" /> 
-    <None Remove="Resources\Images\normalize.png" />
-    <None Remove="Resources\Images\power-plug.png" />
-    <None Remove="Resources\Images\open.png" />
-    <None Remove="Resources\Images\save.png" />
-    <None Remove="Resources\Images\scripts.png" />
+    <None Remove="Resources\Images\**\*.png" />
+    <None Remove="Resources\Images\**\*.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,21 +58,8 @@ https://github.com/Riz-ve/Xeno</Description>
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="multiple.png" />
-    <Resource Include="Resources\Images\clear.png" />
-    <Resource Include="Resources\Images\close.png" />
-    <Resource Include="Resources\Images\close2.png" />
-    <Resource Include="Resources\Images\execute.png" />
-    <Resource Include="Resources\Images\icon.ico" />
-    <Resource Include="Resources\Images\maximize.png" />
-    <Resource Include="Resources\Images\minimize.png" />
-    <Resource Include="Resources\Images\multiple.png" />
-    <Resource Include="Resources\Images\normalize.png" />
-    <Resource Include="Resources\Images\open.png" />
-    <Resource Include="Resources\Images\power-plug-outline.png" />
-    <Resource Include="Resources\Images\power-plug.png" />
-    <Resource Include="Resources\Images\save.png" />
-    <Resource Include="Resources\Images\scripts.png" />
+    <Resource Include="Resources\Images\**\*.png" />
+    <Resource Include="Resources\Images\**\*.ico" />
   </ItemGroup>
 
   <ItemGroup>

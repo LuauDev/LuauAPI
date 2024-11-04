@@ -102,15 +102,15 @@
                     <StackPanel Orientation="Horizontal">
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
                                 x:Name="buttonOpenFile" Margin="2,0" ToolTip="Open File">
-                            <Image Source="/Resources/Images/open.png" Width="16" Height="16"/>
+                            <Image Source="/Resources/Images/openfile.png" Width="16" Height="16"/>
                         </Button>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
                                 x:Name="buttonSaveFile" Margin="2,0" ToolTip="Save File">
-                            <Image Source="/Resources/Images/save.png" Width="16" Height="16"/>
+                            <Image Source="/Resources/Images/savefree.png" Width="16" Height="16"/>
                         </Button>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
                                 x:Name="buttonClear" Margin="2,0" ToolTip="Clear">
-                            <Image Source="/Resources/Images/clear.png" Width="16" Height="16"/>
+                            <Image Source="/Resources/Images/clearfree.png" Width="16" Height="16"/>
                         </Button>
                         <Separator Width="1" Margin="5,5" Background="#2D2D3A"/>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
@@ -119,15 +119,15 @@
                         </Button>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
                                 x:Name="buttonShowScripts" Margin="2,0" ToolTip="View Scripts">
-                            <Image Source="/Resources/Images/scripts.png" Width="16" Height="16"/>
+                            <Image Source="/Resources/Images/scroll.png" Width="16" Height="16"/>
                         </Button>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
                                 x:Name="buttonShowMultinstance" Margin="2,0" ToolTip="Clients Management">
-                            <Image Source="/Resources/Images/multiple.png" Width="16" Height="16"/>
+                            <Image Source="/Resources/Images/clients.png" Width="16" Height="16"/>
                         </Button>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
                                 x:Name="buttonExecute" Margin="2,0" ToolTip="Execute">
-                            <Image Source="/Resources/Images/execute.png" Width="16" Height="16"/>
+                            <Image Source="/Resources/Images/play.png" Width="16" Height="16"/>
                         </Button>
                     </StackPanel>
                 </Border>

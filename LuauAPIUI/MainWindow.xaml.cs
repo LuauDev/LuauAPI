@@ -66,10 +66,33 @@ namespace XenoUI
 		private async Task LoadWebView()
 		{
 			var tcs = new TaskCompletionSource<bool>();
-			script_editor.CoreWebView2.NavigationCompleted += (sender, args) =>
+			script_editor.CoreWebView2.NavigationCompleted += async (sender, args) =>
 			{
-				if (args.IsSuccess) tcs.SetResult(true);
-				else tcs.SetException(new Exception($"Navigation failed with error code: {args.WebErrorStatus}"));
+				if (args.IsSuccess)
+				{
+					// Set Monaco editor theme colors
+					await script_editor.CoreWebView2.ExecuteScriptAsync(@"
+						monaco.editor.defineTheme('xenoTheme', {
+							base: 'vs-dark',
+							inherit: true,
+							rules: [],
+							colors: {
+								'editor.background': '#151522',
+								'editor.foreground': '#FFFFFF',
+								'editor.lineHighlightBackground': '#1E1E2E',
+								'editorCursor.foreground': '#FF3366',
+								'editor.selectionBackground': '#FF336640',
+								'editorLineNumber.foreground': '#666666'
+							}
+						});
+						monaco.editor.setTheme('xenoTheme');
+					");
+					tcs.SetResult(true);
+				}
+				else
+				{
+					tcs.SetException(new Exception($"Navigation failed with error code: {args.WebErrorStatus}"));
+				}
 			};
 			await tcs.Task;
 		}
