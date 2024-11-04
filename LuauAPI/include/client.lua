@@ -2574,11 +2574,7 @@ end
 
 
 
-local hiddenProperties = {}
-local BetterZorara = {}
-
-
-BetterZorara.WebSocket = {
+LuauAPI.WebSocket = {
     connect = function(url)
         assert(type(url) == "string", "Invalid argument #1 to 'WebSocket.connect' (string expected)")
         
@@ -2612,9 +2608,9 @@ BetterZorara.WebSocket = {
     end
 }
 
-function BetterZorara.getallthreads()
+function LuauAPI.getallthreads()
     local threads = {}
-    for _, obj in ipairs(BetterZorara.getgc(true)) do
+    for _, obj in ipairs(LuauAPI.getgc(true)) do
         if type(obj) == "thread" and coroutine.status(obj) ~= "dead" then
             table.insert(threads, obj)
         end
@@ -2622,7 +2618,7 @@ function BetterZorara.getallthreads()
     return threads
 end
 
-function BetterZorara.gethiddenproperty(instance, property)
+function LuauAPI.gethiddenproperty(instance, property)
     assert(typeof(instance) == "Instance", "invalid argument #1 to 'gethiddenproperty' (Instance expected, got " .. typeof(instance) .. ") ", 2)
     assert(type(property) == "string", "invalid argument #2 to 'gethiddenproperty' (string expected, got " .. type(property) .. ") ", 2)
     
@@ -2641,7 +2637,7 @@ function BetterZorara.gethiddenproperty(instance, property)
     error("Unable to get hidden property '" .. property .. "' from " .. instance.ClassName, 2)
 end
 
-function BetterZorara.sethiddenproperty(instance, property, value)
+function LuauAPI.sethiddenproperty(instance, property, value)
     assert(typeof(instance) == "Instance", "invalid argument #1 to 'sethiddenproperty' (Instance expected, got " .. typeof(instance) .. ") ", 2) 
     assert(type(property) == "string", "invalid argument #2 to 'sethiddenproperty' (string expected, got " .. type(property) .. ") ", 2)
     
@@ -2664,10 +2660,6 @@ function BetterZorara.sethiddenproperty(instance, property, value)
     error("Unable to set hidden property '" .. property .. "' on " .. instance.ClassName, 2)
 end
 
-
-LuauAPI.sethiddenproperty = BetterZorara.sethiddenproperty
-LuauAPI.gethiddenproperty = BetterZorara.gethiddenproperty
-LuauAPI.WebSocket = BetterZorara.WebSocket
 
 
 
