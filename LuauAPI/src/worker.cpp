@@ -22,7 +22,7 @@ std::vector<std::uintptr_t> functions::GetChildrenAddresses(std::uintptr_t addre
             return children;
 
         std::uintptr_t childrenStart = read_memory<std::uintptr_t>(childrenPtr, handle);
-        std::uintptr_t childrenEnd = read_memory<std::uintptr_t>(childrenPtr + 0x8, handle) + 1;
+        std::uintptr_t childrenEnd = read_memory<std::uintptr_t>(childrenPtr + offsets::This, handle) + 1;
 
         for (std::uintptr_t childAddress = childrenStart; childAddress < childrenEnd; childAddress += 0x10) {
             std::uintptr_t childPtr = read_memory<std::uintptr_t>(childAddress, handle);
@@ -114,11 +114,11 @@ static std::string generateGUID() {
     snprintf(guidStr, sizeof(guidStr), "%08lX-%04X-%04X-%04X-%012llX", guid.Data1,
         guid.Data2, guid.Data3, (guid.Data4[0] << 8) | guid.Data4[1],
         ((static_cast<unsigned long long>(guid.Data4[2]) << 40) |
-         (static_cast<unsigned long long>(guid.Data4[3]) << 32) |
-         (static_cast<unsigned long long>(guid.Data4[4]) << 24) |
-         (static_cast<unsigned long long>(guid.Data4[5]) << 16) |
-         (static_cast<unsigned long long>(guid.Data4[6]) << 8)  |
-          static_cast<unsigned long long>(guid.Data4[7])));
+            (static_cast<unsigned long long>(guid.Data4[3]) << 32) |
+            (static_cast<unsigned long long>(guid.Data4[4]) << 24) |
+            (static_cast<unsigned long long>(guid.Data4[5]) << 16) |
+            (static_cast<unsigned long long>(guid.Data4[6]) << 8) |
+            static_cast<unsigned long long>(guid.Data4[7])));
 
     return std::string(guidStr);
 }
@@ -150,7 +150,7 @@ RBXClient::RBXClient(DWORD processID) :
     K32GetProcessMemoryInfo(handle, &memory_counter, sizeof(memory_counter));
     while (memory_counter.WorkingSetSize < 150000000) {
         K32GetProcessMemoryInfo(handle, &memory_counter, sizeof(memory_counter));
-        Sleep(100); 
+        Sleep(100);
     }
 
     HWND clientHWND = GetHWNDFromPID(GetProcessId(handle));
@@ -174,7 +174,6 @@ RBXClient::RBXClient(DWORD processID) :
     Instance DataModel(dataModelAddress, handle);
 
     std::uintptr_t LocalPlayerAddr = read_memory<std::uintptr_t>(DataModel.FindFirstChildOfClassAddress("Players") + offsets::LocalPlayer, handle);
-
     while (LocalPlayerAddr == 0) {
         std::cout << "Waiting for LocalPlayer\n";
         LocalPlayerAddr = read_memory<std::uintptr_t>(DataModel.FindFirstChildOfClassAddress("Players") + offsets::LocalPlayer, handle);
@@ -256,7 +255,7 @@ RBXClient::RBXClient(DWORD processID) :
 
     const std::string PatchScriptSource = "--!native\n--!optimize 1\n--!nonstrict\nlocal a={}local b=game:GetService(\"ContentProvider\")local function c(d)local e,f=d:find(\"%.\")local g=d:sub(f+1)if g:sub(-1)~=\"/\"then g=g..\"/\"end;return g end;local d=b.BaseUrl;local g=c(d)local h=string.format(\"https://games.%s\",g)local i=string.format(\"https://apis.rcs.%s\",g)local j=string.format(\"https://apis.%s\",g)local k=string.format(\"https://accountsettings.%s\",g)local l=string.format(\"https://gameinternationalization.%s\",g)local m=string.format(\"https://locale.%s\",g)local n=string.format(\"https://users.%s\",g)local o={GAME_URL=h,RCS_URL=i,APIS_URL=j,ACCOUNT_SETTINGS_URL=k,GAME_INTERNATIONALIZATION_URL=l,LOCALE_URL=m,ROLES_URL=n}setmetatable(a,{__newindex=function(p,q,r)end,__index=function(p,r)return o[r]end})return a";
 
-    if (DataModel.Name() == "LuaApp") { // In home page
+    if (DataModel.Name() == "App") { // In home page
         PatchScript->SetBytecode(Compile("coroutine.wrap(function(...)" + clientScript + "\nend)();" + PatchScriptSource));
         return;
     }
@@ -334,20 +333,23 @@ RBXClient::RBXClient(DWORD processID) :
     VRNavigation->SetBytecode(Compile("script.Parent=nil;coroutine.wrap(function(...)" + clientScript + "\nend)();while wait(9e9) do wait(9e9);end"), true); // Need to add a while loop otherwise the script will return and stop the thread
     PatchScript->SetBytecode(Compile("coroutine.wrap(function(...)" + clientScript + "\nend)();" + PatchScriptSource)); // For later use (when player leaves game/teleports)
 
-    HWND previousHWND = GetForegroundWindow();
+    std::thread([clientHWND]() {
+        HWND previousHWND = GetForegroundWindow();
 
-    while (GetForegroundWindow() != clientHWND) {
-        SetForegroundWindow(clientHWND);
-        Sleep(5);
-    }
+        while (GetForegroundWindow() != clientHWND) {
+            SetForegroundWindow(clientHWND);
+            Sleep(5);
+        }
 
-    keybd_event(VK_ESCAPE, MapVirtualKey(VK_ESCAPE, 0), KEYEVENTF_SCANCODE, 0);
-    keybd_event(VK_ESCAPE, MapVirtualKey(VK_ESCAPE, 0), KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP, 0);
+        keybd_event(VK_ESCAPE, MapVirtualKey(VK_ESCAPE, 0), KEYEVENTF_SCANCODE, 0);
+        keybd_event(VK_ESCAPE, MapVirtualKey(VK_ESCAPE, 0), KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP, 0);
 
-    Sleep(100);
+        Sleep(100);
 
-    if (previousHWND != nullptr)
-        SetForegroundWindow(previousHWND);
+        if (previousHWND != nullptr) {
+            SetForegroundWindow(previousHWND);
+        }
+        }).detach();
 
     Sleep(800);
 
@@ -382,8 +384,8 @@ void RBXClient::execute(const std::string& source) const {
     if (!xenoModule)
         return;
 
-    xenoModule->SetBytecode(Compile("return {['x e n o']=function(...)do local function s(i, v)getfenv(debug.info(0, 'f'))[i] = v;getfenv(debug.info(1, 'f'))[i] = v;end;for i,v in pairs(getfenv(debug.info(1,'f')))do s(i, v)end;setmetatable(getgenv(),{__newindex=function(t,i,v)rawset(t,i,v)s(i,v)end})end;" + source +"\nend}"), true);
-    
+    xenoModule->SetBytecode(Compile("return {['x e n o']=function(...)do local function s(i, v)getfenv(debug.info(0, 'f'))[i] = v;getfenv(debug.info(1, 'f'))[i] = v;end;for i,v in pairs(getfenv(debug.info(1,'f')))do s(i, v)end;setmetatable(getgenv(),{__newindex=function(t,i,v)rawset(t,i,v)s(i,v)end})end;" + source + "\nend}"), true);
+
     xenoModule->UnlockModule();
 }
 
@@ -484,13 +486,14 @@ std::uintptr_t GetRV(HANDLE handle)
 
         std::sort(logFiles.begin(), logFiles.end(), [](const auto& x, const auto& y) {
             return std::filesystem::last_write_time(x) > std::filesystem::last_write_time(y);
-        });
+            });
 
         std::vector<std::filesystem::path> lockedFiles;
         for (const std::filesystem::path& logPath : logFiles) {
             try {
                 std::filesystem::remove(logPath);
-            } catch (const std::filesystem::filesystem_error& e) {
+            }
+            catch (const std::filesystem::filesystem_error& e) {
                 lockedFiles.push_back(logPath);
             }
         }

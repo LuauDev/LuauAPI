@@ -25,7 +25,8 @@ static bool withinDirectory(const std::filesystem::path& base, const std::filesy
 			if (resolvedPath.has_parent_path()) {
 				resolvedPath = resolvedPath.parent_path();
 			}
-		} else if (part != ".") {
+		}
+		else if (part != ".") {
 			resolvedPath /= part;
 		}
 	}
@@ -174,7 +175,8 @@ static void serve(Response& res, const json& body) {
 		try {
 			if (std::filesystem::create_directory(path)) {
 				res.status = 201;
-			} else {
+			}
+			else {
 				res.status = 500;
 				res.set_content(R"({"error":"Could not create a new directory"})", "application/json");
 			}
@@ -209,11 +211,13 @@ static void serve(Response& res, const json& body) {
 		try {
 			if (std::filesystem::remove_all(path)) {
 				res.status = 200;
-			} else {
+			}
+			else {
 				res.status = 500;
 				res.set_content(R"({"error":"Could not delete directory"})", "application/json");
 			}
-		} catch (const std::filesystem::filesystem_error& e) {
+		}
+		catch (const std::filesystem::filesystem_error& e) {
 			res.status = 500;
 			res.set_content("{\"error\":\"Could not delete directory: " + std::string(e.what()) + "\"})", "application/json");
 		}
@@ -244,7 +248,8 @@ static void serve(Response& res, const json& body) {
 		try {
 			if (std::filesystem::remove(path)) {
 				res.status = 200;
-			} else {
+			}
+			else {
 				res.status = 500;
 				res.set_content(R"({"error":"Could not delete file"})", "application/json");
 			}
@@ -323,7 +328,8 @@ static void serve(Response& res, const json& body) {
 		if (std::regex_match(url, urlM, urlR)) {
 			host = urlM[2];
 			path = urlM[3].str();
-		} else {
+		}
+		else {
 			res.status = 400;
 			res.set_content(R"({"error":"Invalid URL"})", "application/json");
 			return;
@@ -340,15 +346,20 @@ static void serve(Response& res, const json& body) {
 		Result proxiedRes;
 		if (method == "GET") {
 			proxiedRes = client.Get(path, headers);
-		} else if (method == "POST") {
+		}
+		else if (method == "POST") {
 			proxiedRes = client.Post(path, headers, rBody, "application/json");
-		} else if (method == "PUT") {
+		}
+		else if (method == "PUT") {
 			proxiedRes = client.Put(path, headers, rBody, "application/json");
-		} else if (method == "DELETE") {
+		}
+		else if (method == "DELETE") {
 			proxiedRes = client.Delete(path, headers, rBody, "application/json");
-		} else if (method == "PATCH") {
+		}
+		else if (method == "PATCH") {
 			proxiedRes = client.Patch(path, headers, rBody, "application/json");
-		} else {
+		}
+		else {
 			res.status = 400;
 			res.set_content(R"({"error":"Unsupported HTTP method"})", "application/json");
 			return;
@@ -371,15 +382,17 @@ static void serve(Response& res, const json& body) {
 				contentType.find("text/") == std::string::npos) { // convert binary files to base 64
 				responseJ["b"] = base64::to_base64(proxiedRes->body);
 				responseJ["b64"] = true;
-			} else {
+			}
+			else {
 				responseJ["b"] = proxiedRes->body;
 			}
 
 			res.status = 200;
 			res.set_content(responseJ.dump(), "application/json");
-		} else {
-			res.status = 200;
-			res.set_content("x", "text/plain");
+		}
+		else {
+			res.status = 500;
+			res.set_content(R"({"error":"Failed to reach target server"})", "application/json");
 		}
 		return;
 	}
@@ -400,7 +413,8 @@ static void serve(Response& res, const json& body) {
 					res.status = 200;
 					res.set_content(client->TeleportQueue, "text/plain");
 					return;
-				} else if (type == "s") { // set
+				}
+				else if (type == "s") { // set
 
 					if (!body.contains("ct")) {
 						res.status = 400;
@@ -604,11 +618,10 @@ static void serve(Response& res, const json& body) {
 		}
 
 		const std::string guid = body["gd"];
-		const std::string username = body["n"];
 
 		std::lock_guard<std::mutex> lock(clientsMtx);
 		for (const auto& client : Clients) {
-			if (client->GUID == guid || client->Username == username) {
+			if (client->GUID == guid) {
 				res.status = 200;
 				res.set_content(std::to_string(client->PID), "text/plain");
 				return;
@@ -642,12 +655,14 @@ static void serve(Response& res, const json& body) {
 
 			res.status = 200;
 			return;
-		} else if (type == "g") { // get
+		}
+		else if (type == "g") { // get
 			res.status = 200;
 			if (Globals.find(gName) != Globals.end()) {
 				res.set_content(Globals[gName].dump(), "application/json");
 				return;
-			} else {
+			}
+			else {
 				res.set_content(R"({"d":null,"t":null})", "application/json");
 				return;
 			}
@@ -743,7 +758,8 @@ void setup_connection()
 		json body;
 		try {
 			body = json::parse(req.body);
-		} catch (json::parse_error&) {
+		}
+		catch (json::parse_error&) {
 			res.status = 400;
 			res.set_content(R"({"error":"Invalid JSON"})", "application/json");
 			return;
@@ -760,7 +776,7 @@ void setup_connection()
 			res.set_content(R"({"error":"Missing 'c' field"})", "application/json");
 		}
 		serve(res, body);
-	});
+		});
 
 	svr.Post("/writefile", [](const Request& req, Response& res) {
 		if (!req.has_param("p") /*path*/ || req.body.empty() /*content*/) {
@@ -795,7 +811,7 @@ void setup_connection()
 
 		res.status = 200;
 		return;
-	});
+		});
 
 	svr.Post("/compilable", [](const Request& req, Response& res) {
 		if (req.body.empty() /*source*/) {
@@ -811,7 +827,7 @@ void setup_connection()
 
 		res.status = 200;
 		res.set_content(compilable(source, returnBytecode), "text/plain");
-	});
+		});
 
 	svr.Post("/loadstring", [](const Request& req, Response& res) {
 		if (!req.has_param("n") /*script name*/ || !req.has_param("pid") /*process id*/ || !req.has_param("cn") /*chunk name*/ || req.body.empty() /*source*/) {
@@ -841,7 +857,7 @@ void setup_connection()
 		res.status = 400;
 		res.set_content(R"({"error":"Client with the given PID was not found"})", "application/json");
 		return;
-	});
+		});
 
 	svr.Post("/setclipboard", [](const Request& req, Response& res) {
 		if (req.body.empty() /*content*/) {
@@ -884,20 +900,22 @@ void setup_connection()
 
 		res.status = 200;
 		return;
-	});
+		});
 
 	svr.set_exception_handler([](const Request& req, Response& res, std::exception_ptr ep) {
 		std::string errorMessage;
 		try {
 			std::rethrow_exception(ep);
-		} catch (std::exception& e) {
+		}
+		catch (std::exception& e) {
 			errorMessage = e.what();
-		} catch (...) {
+		}
+		catch (...) {
 			errorMessage = "Unknown Exception";
 		}
 		res.set_content("{\"error\":\"" + errorMessage + "\"}", "application/json");
 		res.status = 500;
-	});
+		});
 
 	svr.listen("localhost", 19283);
 }

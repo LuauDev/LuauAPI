@@ -36,8 +36,7 @@ namespace offsets {
     constexpr std::uint64_t ObjectValue = 0xc8;
 }
 
-
-const std::string_view Xeno_Version = "1.0.8";
+const std::string_view Xeno_Version = "1.0.5";
 
 template<typename T>
 T read_memory(std::uintptr_t address, HANDLE handle);
@@ -161,7 +160,7 @@ public:
                 Sleep(850);
                 write_memory<std::uintptr_t>(embeddedPtr + offsets::Bytecode, originalBytecodePtr, handle);
                 write_memory<std::uint64_t>(embeddedPtr + offsets::BytecodeSize, originalSize, handle);
-            }).detach();
+                }).detach();
         }
 
         LPVOID allocatedAddress = VirtualAllocEx(handle, nullptr, compressedBytecode.size(), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
@@ -314,7 +313,7 @@ class bytecode_encoder_t : public Luau::BytecodeEncoder {
 std::vector<DWORD> GetProcessIDsByName(const std::wstring_view processName);
 std::uintptr_t GetRV(HANDLE handle);
 
-std::string compilable(const std::string& source, bool returnBytecode=false);
+std::string compilable(const std::string& source, bool returnBytecode = false);
 std::string Compile(const std::string& source);
 std::string decompress(const std::string_view compressed);
 

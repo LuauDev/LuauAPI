@@ -57,22 +57,23 @@ end
 local libs = {
 	{
 		['name'] = "HashLib",
-		['url'] = "https://rizve.us.to/Xeno/hash"
+		['url'] = "https://luaudev.vercel.app/Lunara/HashLib.lua"
 	},
 	{
 		['name'] = "lz4",
-		['url'] = "https://rizve.us.to/Xeno/lz4"
+		['url'] = "https://luaudev.vercel.app/Lunara/Lz4.lua"
 	},
 	{
 		['name'] = "DrawingLib",
-		['url'] = "https://rizve.us.to/Xeno/drawing"
+		['url'] = "https://luaudev.vercel.app/Lunara/DrawingLib.lua"
 	}
 }
 
 if script.Name == "VRNavigation" then
 	StarterGui:SetCore("SendNotification", {
 		Title = "[LuauDev]",
-		Text = "Used ingame method. When you leave the game it might crash!"
+		Icon = "rbxassetid://128338963595620",
+		Text = "Injected In-Game | May Crash!"
 	})
 end
 
@@ -1336,16 +1337,24 @@ pcall(function()
 end)
 
 do
-	local libsLoaded = 0
+    local libsLoaded = 0
+    local totalLibs = #libs
+    local lock = false
 
-	for i, libInfo in pairs(libs) do
-		task.spawn(function()
-			libs[i].content = Bridge:loadstring(InternalGet(libInfo.url), libInfo.name)()
-			libsLoaded += 1
-		end)
-	end
+    for i, libInfo in pairs(libs) do
+        task.spawn(function()
+            local content = Bridge:loadstring(InternalGet(libInfo.url), libInfo.name)()
+            repeat task.wait() until not lock
+            lock = true
+            libs[i].content = content
+            libsLoaded = libsLoaded + 1
+            lock = false
+        end)
+    end
 
-	while libsLoaded < #libs do task.wait() end
+    while libsLoaded < totalLibs do
+        task.wait()
+    end
 end
 
 local function getlib(libName)
