@@ -101,32 +101,32 @@
                         HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonOpenFile" Margin="2,0" ToolTip="Open File">
+                                x:Name="buttonOpenFile" Click="buttonOpenFile_Click" Margin="2,0" ToolTip="Open File">
                             <Image Source="/Resources/Images/openfile.png" Width="16" Height="16"/>
                         </Button>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonSaveFile" Margin="2,0" ToolTip="Save File">
+                                x:Name="buttonSaveFile" Click="buttonSaveFile_Click" Margin="2,0" ToolTip="Save File">
                             <Image Source="/Resources/Images/savefree.png" Width="16" Height="16"/>
                         </Button>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonClear" Margin="2,0" ToolTip="Clear">
+                                x:Name="buttonClear" Click="buttonClear_Click" Margin="2,0" ToolTip="Clear">
                             <Image Source="/Resources/Images/clearfree.png" Width="16" Height="16"/>
                         </Button>
                         <Separator Width="1" Margin="5,5" Background="#2D2D3A"/>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonInject" Margin="2,0" ToolTip="Inject">
+                                x:Name="buttonInject" Click="buttonInject_Click" Margin="2,0" ToolTip="Inject">
                             <Image x:Name="injectImage" Source="/Resources/Images/power-plug-outline.png" Width="16" Height="16"/>
                         </Button>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonShowScripts" Margin="2,0" ToolTip="View Scripts">
+                                x:Name="buttonShowScripts" Click="buttonShowScripts_Click" Margin="2,0" ToolTip="View Scripts">
                             <Image Source="/Resources/Images/scroll.png" Width="16" Height="16"/>
                         </Button>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonShowMultinstance" Margin="2,0" ToolTip="Clients Management">
+                                x:Name="buttonShowMultinstance" Click="buttonShowMultinstance_Click" Margin="2,0" ToolTip="Clients Management">
                             <Image Source="/Resources/Images/clients.png" Width="16" Height="16"/>
                         </Button>
                         <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonExecute" Margin="2,0" ToolTip="Execute">
+                                x:Name="buttonExecute" Click="buttonExecute_Click" Margin="2,0" ToolTip="Execute">
                             <Image Source="/Resources/Images/play.png" Width="16" Height="16"/>
                         </Button>
                     </StackPanel>

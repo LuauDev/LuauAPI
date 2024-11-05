@@ -232,5 +232,5 @@ namespace XenoUI
 				MessageBox.Show($"Failed to inject: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
-	}
+    }
 }
