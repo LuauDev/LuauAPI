@@ -1,4 +1,4 @@
-> **🌿 LuauAPI is owned by **@skidder.lol** and the **LuauAPI dev team** (https://discord.gg/eknR2BNPdT)**
+> **🌿 LuauAPI is owned by **@skidder.lol** and the **LuauAPI dev team** ([https://discord.gg/eknR2BNPdT](https://discord.gg/eftgWq3Ukh))**
 > 
 > **🙏 Thanks for using my source! If you find it helpful, consider giving credit and sharing your support.**
 
