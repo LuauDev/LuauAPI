@@ -10,7 +10,7 @@ namespace XenoUI
 {
 	public partial class ClientsWindow : Window
 	{
-		public string LuauAPIVersion = "1.0.9";
+		public string LuauAPIVersion = "v2.0";
 
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
 		public struct ClientInfo

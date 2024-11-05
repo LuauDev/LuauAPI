@@ -234,11 +234,6 @@ namespace XenoUI
 		{
 			try 
 			{
-				if (!NativeMethods.PatchWinTrust())
-				{
-					throw new Exception("Failed to patch signature verification");
-				}
-
 				_clientsWindow.InjectRoblox();
 				buttonInject.IsEnabled = false;
 				buttonInject.ToolTip = "Already Injected";
