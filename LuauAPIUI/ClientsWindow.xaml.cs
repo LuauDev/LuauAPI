@@ -10,7 +10,7 @@ namespace XenoUI
 {
 	public partial class ClientsWindow : Window
 	{
-		public string LuauAPIVersion = "1.0.85";
+		public string LuauAPIVersion = "1.0.9";
 
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
 		public struct ClientInfo
@@ -40,7 +40,7 @@ namespace XenoUI
 		public ClientsWindow()
 		{
 			InitializeComponent();
-			LoadSupportedVersion();
+			//LoadSupportedVersion();
 			MouseLeftButtonDown += (_, _) => DragMove();
 
 			_timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
@@ -48,6 +48,7 @@ namespace XenoUI
 			_timer.Start();
 		}
 
+		/*
 		private async void LoadSupportedVersion()
 		{
 			try
@@ -66,6 +67,7 @@ namespace XenoUI
 				MessageBox.Show($"Error fetching versions: {e.Message}");
 			}
 		}
+		*/
 
 		private void UpdateClientList(object sender, EventArgs e)
 		{
