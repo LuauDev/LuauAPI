@@ -14,18 +14,23 @@ If you’re going to use my source code, please **give credit** and respect the 
 1. **Install Prerequisites**:
    - Install [Visual Studio](https://visualstudio.microsoft.com/)
    - Install [vcpkg](https://github.com/microsoft/vcpkg)
-   - Install [OpenSSL](https://slproweb.com/download/Win64OpenSSL-3_4_0.exe) (Non-light verison)
+   - Install [OpenSSL](https://slproweb.com/download/Win64OpenSSL-3_4_0.exe) (Non-light version)
 
 2. **Install Dependencies**:
-   ```sh
-   vcpkg install xxhash zstd
-   ```
+   - After installing vcpkg, run this command in the terminal:
+     ```sh
+     vcpkg install xxhash zstd openssl
+     ```
 
 3. **Build the Project**:
-   - Open the `.sln` file with Visual Studio
-   - Set build configuration to `Release` and platform to `x64`
-   - Click Build > Build Solution (or press F7)
-   - Start the project (F5)
+   - Clone the repository:
+     ```sh
+     git clone https://github.com/LuauAPI/LuauAPI.git
+     ```
+   - Open the `.sln` file with Visual Studio.
+   - Set the build configuration to `Release` and the platform to `x64`.
+   - Click **Build > Build Solution** (or press `F7`).
+   - Once it builds, start the project by pressing **F5**.
 
 ⚠️ **Having Issues?** Report them in our [GitHub Issues](https://github.com/LuauDev/LuauAPI/issues)
 
