@@ -384,7 +384,37 @@ void RBXClient::execute(const std::string& source) const {
     if (!xenoModule)
         return;
 
-    xenoModule->SetBytecode(Compile("return {['x e n o']=function(...)do local function s(i, v)getfenv(debug.info(0, 'f'))[i] = v;getfenv(debug.info(1, 'f'))[i] = v;end;for i,v in pairs(getfenv(debug.info(1,'f')))do s(i, v)end;setmetatable(getgenv(),{__newindex=function(t,i,v)rawset(t,i,v)s(i,v)end})end;" + source + "\nend}"), true);
+    xenoModule->SetBytecode(Compile(R"(
+        return {['x e n o']=function(...)
+            do
+                local env = getfenv(1)
+                local function s(i, v)
+                    getfenv(debug.info(0, 'f'))[i] = v
+                    getfenv(debug.info(1, 'f'))[i] = v
+                    env[i] = v
+                end
+                
+                -- Create environment tracker
+                if not rawget(env, '__xenoenv') then
+                    env.__xenoenv = {
+                        hooks = {},
+                        originals = {},
+                        refs = setmetatable({}, {__mode = 'k'})
+                    }
+                end
+
+                for i,v in pairs(getfenv(debug.info(1,'f'))) do 
+                    s(i, v)
+                end
+
+                setmetatable(getgenv(),{
+                    __newindex = function(t,i,v)
+                        rawset(t,i,v)
+                        s(i,v)
+                    end
+                })
+            end
+            )" + source + "\nend}"), true);
 
     xenoModule->UnlockModule();
 }

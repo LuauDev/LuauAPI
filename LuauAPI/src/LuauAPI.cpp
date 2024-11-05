@@ -55,7 +55,7 @@ static void init() {
                     return true;
                 }
                 return false;
-            }), Clients.end());
+                }), Clients.end());
 
             for (const DWORD& pid : client_pids) {
                 if (std::none_of(Clients.begin(), Clients.end(),
@@ -77,7 +77,7 @@ extern "C" {
             simpleClients.clear();
 
             for (const auto& client : Clients) {
-                simpleClients.push_back({client->Version.c_str() /*Version*/, client->Username.c_str() /*Username*/, static_cast<int>(client->PID) /*Process ID*/});
+                simpleClients.push_back({ client->Version.c_str() /*Version*/, client->Username.c_str() /*Username*/, static_cast<int>(client->PID) /*Process ID*/ });
             }
 
             simpleClients.push_back({ nullptr, nullptr, 0 });
@@ -93,7 +93,7 @@ extern "C" {
         freopen_s(&conOut, "CONOUT$", "w", stdout);
         freopen_s(&conOut, "CONOUT$", "w", stderr);
         */
-        
+
         HMODULE ntdll = LoadLibraryA("ntdll.dll");
         if (!ntdll) {
             std::cerr << "Could not load ntdll.dll\n";

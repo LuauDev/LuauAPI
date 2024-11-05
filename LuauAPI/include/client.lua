@@ -2700,55 +2700,43 @@ end
 
 
 
-
-
-local hookedFunctions = {}
-
 LuauAPI.hookfunction = function(target, hook)
-    assert(type(target) == "function", "invalid argument #1 to 'hookfunction' (function expected, got " .. type(target) .. ")")
-    assert(type(hook) == "function", "invalid argument #2 to 'hookfunction' (function expected, got " .. type(hook) .. ")")
-    
-    -- Get function address
-    local targetAddr = tostring(LuauAPI.LuauAPI.get_real_address(target))
-    
-    -- Check if already hooked
-    if hookedFunctions[targetAddr] then
-        local oldHook = hookedFunctions[targetAddr].hook
-        hookedFunctions[targetAddr].hook = hook
-        return oldHook
-    end
-    
-    -- Store hook info
-    hookedFunctions[targetAddr] = {
-        original = target,
-        hook = hook
-    }
-    
-    -- Send hook request to server
-    local success = Bridge:request({
-        Url = Bridge.serverUrl .. "/hookfunction",
-        Method = "POST",
-        Body = string.dump(hook),
-        Query = {
-            pid = tostring(game.PlaceId),
-            target = targetAddr
-        }
-    })
-    
-    if success then
-        return target
-    end
-    
-    return hook
-end
+    assert(type(target) == "function", "invalid argument #1 to 'hookfunction' (function expected, got "..type(target)..")")
+    assert(type(hook) == "function", "invalid argument #2 to 'hookfunction' (function expected, got "..type(hook)..")")
 
-LuauAPI.getoriginal = function(hook)
-    for addr, hookData in pairs(hookedFunctions) do
-        if hookData.hook == hook then
-            return hookData.original
+    -- Store original function
+    local original = target
+    
+    -- Create proxy function that will replace the original
+    local proxy = function(...)
+        return hook(...)
+    end
+
+    -- Get current environment and replace all references
+    local env = getfenv(2)
+    for k,v in pairs(env) do
+        if v == target then
+            rawset(env, k, proxy)
         end
     end
-    return hook
+
+    -- Create a new closure for the original function
+    local originalClosure = function(...)
+        return original(...)
+    end
+
+    return originalClosure
+end
+
+-- Optional helper function
+LuauAPI.getoriginal = function(hooked)
+    local env = getfenv(2)
+    for k,v in pairs(env) do
+        if v == hooked then
+            return env["__xenoenv_originals"][k]
+        end
+    end
+    return hooked
 end
 
 LuauAPI.replaceclosure = LuauAPI.hookfunction
@@ -2978,7 +2966,6 @@ LuauAPI.Notify = function(title, subtitle, content)
 end
 
 LuauAPI.Notify()
-
 
 
 -------------------------------------------------------------------------------
