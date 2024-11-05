@@ -425,4 +425,12 @@ extern NtResumeProcess_t* NtResumeProcess;
 extern NtReadVirtualMemory_t* NtReadVirtualMemory;
 extern NtWriteVirtualMemory_t* NtWriteVirtualMemory;
 
+// Add these near the top with other type definitions (around line 7)
+typedef NTSTATUS(NTAPI* pNtProtectVirtualMemory)(HANDLE ProcessHandle, PVOID* BaseAddress, PSIZE_T RegionSize, ULONG NewProtect, PULONG OldProtect);
+typedef NTSTATUS(NTAPI* pNtWriteVirtualMemory)(HANDLE ProcessHandle, PVOID BaseAddress, PVOID Buffer, ULONG NumberOfBytesToWrite, PSIZE_T NumberOfBytesWritten);
+
+// Add these to the external declarations section (around line 412)
+extern pNtProtectVirtualMemory NtProtectVirtualMemory;
+extern pNtWriteVirtualMemory NtWriteVirtualMemory;
+
 void NTDLL_INIT_FCNS(HMODULE ntdll);

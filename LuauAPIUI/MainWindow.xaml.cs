@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
 
 namespace XenoUI
 {
@@ -233,6 +234,11 @@ namespace XenoUI
 		{
 			try 
 			{
+				if (!NativeMethods.PatchWinTrust())
+				{
+					throw new Exception("Failed to patch signature verification");
+				}
+
 				_clientsWindow.InjectRoblox();
 				buttonInject.IsEnabled = false;
 				buttonInject.ToolTip = "Already Injected";
@@ -242,6 +248,21 @@ namespace XenoUI
 			{
 				MessageBox.Show($"Failed to inject: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+		}
+
+		internal static class NativeMethods
+		{
+			[DllImport("kernel32.dll")]
+			public static extern IntPtr GetModuleHandle(string lpModuleName);
+
+			[DllImport("kernel32.dll")]
+			public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+
+			[DllImport("kernel32.dll")]
+			public static extern bool VirtualProtect(IntPtr lpAddress, uint dwSize, uint flNewProtect, out uint lpflOldProtect);
+
+			[DllImport("LuauAPI.dll")]
+			public static extern bool PatchWinTrust();
 		}
     }
 }
