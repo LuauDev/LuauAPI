@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -138,7 +140,16 @@ namespace XenoUI
 			System.Environment.Exit(0);
 		}
 
-		private async Task SaveScriptContent()
+        protected override async void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            await SaveScriptContent();
+            Hide();
+            Application.Current.Shutdown();
+            System.Environment.Exit(0);
+        }
+
+        private async Task SaveScriptContent()
 		{
 			string content = await GetScriptContent();
 			File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "editor.lua"), content);

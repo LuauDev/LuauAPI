@@ -917,5 +917,37 @@ void setup_connection()
 		res.status = 500;
 		});
 
+	svr.Post("/hookfunction", [](const Request& req, Response& res) {
+		if (!req.has_param("pid") || !req.has_param("target") || !req.body.empty()) {
+			res.status = 400;
+			res.set_content(R"({"error":"Missing required fields"})", "application/json");
+			return;
+		}
+
+		const std::string pid = req.get_param_value("pid");
+		const std::string targetAddr = req.get_param_value("target");
+		const std::string hookSource = req.body;
+
+		std::lock_guard<std::mutex> lock(clientsMtx);
+		for (const auto& client : Clients) {
+			if (std::to_string(client->PID) == pid) {
+				uintptr_t targetFunction = std::stoull(targetAddr);
+				bool success = client->HookFunction(targetFunction, hookSource);
+				
+				if (!success) {
+					res.status = 400;
+					res.set_content(R"({"error":"Failed to hook function"})", "application/json");
+					return;
+				}
+
+				res.status = 200;
+				return;
+			}
+		}
+
+		res.status = 400;
+		res.set_content(R"({"error":"Client with the given PID was not found"})", "application/json");
+	});
+
 	svr.listen("localhost", 19283);
 }

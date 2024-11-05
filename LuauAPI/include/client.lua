@@ -1561,41 +1561,64 @@ LuauAPI.dumpstring = LuauAPI.getscriptbytecode
 
 local last_call = 0
 local function konst_call(konstantType: string, scriptPath: Script | ModuleScript | LocalScript): string
-	local success: boolean, bytecode: string = pcall(LuauAPI.getscriptbytecode, scriptPath)
+    local success: boolean, bytecode: string = pcall(LuauAPI.getscriptbytecode, scriptPath)
 
-	if (not success) then
-		return `-- Failed to get script bytecode, error:\n\n--[[\n{bytecode}\n--]]`
-	end
+    if (not success) then
+        return `-- Failed to get script bytecode, error:\n\n--[[\n{bytecode}\n--]]`
+    end
 
-	local time_elapsed = os.clock() - last_call
-	if time_elapsed <= .5 then
-		task.wait(.5 - time_elapsed)
-	end
-	local httpResult = LuauAPI.request({
-		Url = "http://api.plusgiant5.com" .. konstantType,
-		Body = bytecode,
-		Method = "POST",
-		Headers = {
-			["Content-Type"] = "text/plain"
-		},
-	})
-	last_call = os.clock()
+    -- Add retries for API calls
+    local maxRetries = 3
+    local retryDelay = 1
+    
+    for retry = 1, maxRetries do
+        -- Rate limit handling
+        local time_elapsed = os.clock() - last_call
+        if time_elapsed <= .5 then
+            task.wait(.5 - time_elapsed)
+        end
 
-	if (httpResult.StatusCode ~= 200) then
-		return `-- Error occured while requesting the API, error:\n\n--[[\n{httpResult.Body}\n--]]`
-	else
-		return httpResult.Body
-	end
+        local httpResult = LuauAPI.request({
+            Url = "http://api.plusgiant5.com" .. konstantType,
+            Body = bytecode,
+            Method = "POST",
+            Headers = {
+                ["Content-Type"] = "text/plain"
+            },
+        })
+        last_call = os.clock()
+
+        if (httpResult.StatusCode == 200) then
+            return httpResult.Body
+        end
+        
+        -- If not last retry, wait before trying again
+        if retry < maxRetries then
+            task.wait(retryDelay * retry) -- Exponential backoff
+        end
+    end
+
+    return `-- Failed to decompile after {maxRetries} retries. Last error:\n\n--[[\n{httpResult.Body}\n--]]`
 end
 
 LuauAPI.Decompile = function(script_instance)
-	if typeof(script_instance) ~= "Instance" then
-		return "-- invalid argument #1 to 'Decompile' (Instance expected, got " .. typeof(script_instance) .. ")"
-	end
-	if script_instance.ClassName ~= "LocalScript" and script_instance.ClassName ~= "ModuleScript" then
-		return "-- Only LocalScript and ModuleScript is supported but got \"" .. script_instance.ClassName .. "\""
-	end
-	return tostring(konst_call("/konstant/decompile", script_instance)):gsub("\t", "    ")
+    if typeof(script_instance) ~= "Instance" then
+        return "-- invalid argument #1 to 'Decompile' (Instance expected, got " .. typeof(script_instance) .. ")"
+    end
+    if script_instance.ClassName ~= "LocalScript" and script_instance.ClassName ~= "ModuleScript" then
+        return "-- Only LocalScript and ModuleScript is supported but got \"" .. script_instance.ClassName .. "\""
+    end
+    
+    local result = tostring(konst_call("/konstant/decompile", script_instance)):gsub("\t", "    ")
+    
+    -- Basic validation of decompiled output
+    if result:match("^%s*$") or result:match("^%s*%-%-") then
+        -- Empty or error result, try one more time
+        task.wait(1)
+        result = tostring(konst_call("/konstant/decompile", script_instance)):gsub("\t", "    ")
+    end
+    
+    return result
 end
 LuauAPI.decompile = LuauAPI.Decompile
 
@@ -2097,6 +2120,7 @@ LuauAPI.getconnections = function()
 	}}
 end
 
+--[[
 LuauAPI.hookfunction = function(func, rep)
 	local env = getfenv(debug.info(2, 'f'))
 	for i, v in pairs(env) do
@@ -2107,6 +2131,7 @@ LuauAPI.hookfunction = function(func, rep)
 	end
 end
 LuauAPI.replaceclosure = LuauAPI.hookfunction
+--]]
 
 LuauAPI.cloneref = function(reference)
 	if _game:FindFirstChild(reference.Name) or reference.Parent == _game then 
@@ -2620,6 +2645,8 @@ function LuauAPI.getallthreads()
     return threads
 end
 
+local hiddenProperties = {}
+
 function LuauAPI.gethiddenproperty(instance, property)
     assert(typeof(instance) == "Instance", "invalid argument #1 to 'gethiddenproperty' (Instance expected, got " .. typeof(instance) .. ") ", 2)
     assert(type(property) == "string", "invalid argument #2 to 'gethiddenproperty' (string expected, got " .. type(property) .. ") ", 2)
@@ -2661,6 +2688,67 @@ function LuauAPI.sethiddenproperty(instance, property, value)
     
     error("Unable to set hidden property '" .. property .. "' on " .. instance.ClassName, 2)
 end
+
+
+
+
+
+
+
+
+
+
+local hookedFunctions = {}
+
+LuauAPI.hookfunction = function(target, hook)
+    assert(type(target) == "function", "invalid argument #1 to 'hookfunction' (function expected, got " .. type(target) .. ")")
+    assert(type(hook) == "function", "invalid argument #2 to 'hookfunction' (function expected, got " .. type(hook) .. ")")
+    
+    -- Get function address
+    local targetAddr = tostring(LuauAPI.LuauAPI.get_real_address(target))
+    
+    -- Check if already hooked
+    if hookedFunctions[targetAddr] then
+        local oldHook = hookedFunctions[targetAddr].hook
+        hookedFunctions[targetAddr].hook = hook
+        return oldHook
+    end
+    
+    -- Store hook info
+    hookedFunctions[targetAddr] = {
+        original = target,
+        hook = hook
+    }
+    
+    -- Send hook request to server
+    local success = Bridge:request({
+        Url = Bridge.serverUrl .. "/hookfunction",
+        Method = "POST",
+        Body = string.dump(hook),
+        Query = {
+            pid = tostring(game.PlaceId),
+            target = targetAddr
+        }
+    })
+    
+    if success then
+        return target
+    end
+    
+    return hook
+end
+
+LuauAPI.getoriginal = function(hook)
+    for addr, hookData in pairs(hookedFunctions) do
+        if hookData.hook == hook then
+            return hookData.original
+        end
+    end
+    return hook
+end
+
+LuauAPI.replaceclosure = LuauAPI.hookfunction
+
 
 
 
