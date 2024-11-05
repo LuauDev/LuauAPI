@@ -12,122 +12,131 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         MouseLeftButtonDown="Window_MouseLeftButtonDown">
-    
+
     <Window.Resources>
         <Style x:Key="ModernButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#1E1E2E"/>
+            <Setter Property="Background" Value="#2D2D2D"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="bdr_main"
-                                CornerRadius="12"
+                                CornerRadius="8"
                                 BorderThickness="0"
-                                Background="{TemplateBinding Background}">
+                                Background="{TemplateBinding Background}"
+                                Opacity="1">
                             <ContentPresenter VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            ContentSource="Content" />
+                                              HorizontalAlignment="Center"
+                                              ContentSource="Content" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bdr_main"
-                                        Property="Background"
-                                        Value="#FF3366"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bdr_main"
-                                        Property="Background"
-                                        Value="#E62E5C"/>
+                                <Setter TargetName="bdr_main" Property="Opacity" Value="0.8"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+        
     </Window.Resources>
 
-    <Border CornerRadius="12" Background="#0F0F1A" ClipToBounds="True">
+    <Border CornerRadius="12" ClipToBounds="True" Background="#171717">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="45"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Title Bar -->
-            <Border Background="#151522" CornerRadius="12,12,0,0">
+            <Border CornerRadius="12,12,0,0" Background="#1E1E1E">
                 <Grid>
-                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-                        <Image Source="/Resources/Images/logonew.png" Height="48" Width="48"/>
-                        <TextBlock Text="LuauAPI" Foreground="#FF3366" FontSize="18" 
-                                 FontWeight="Bold" Margin="8,0,0,0" VerticalAlignment="Center"/>
-                        <Border Background="#FF3366" CornerRadius="4" Margin="8,0,0,0" 
-                                Padding="4,1" VerticalAlignment="Center">
-                            <TextBlock Text="v2.0" Foreground="White" FontSize="12"/>
+                    <StackPanel Orientation="Horizontal" Margin="12,0,0,0">
+                        <Image Source="/Resources/Images/logonew.png" Height="24" Width="24"/>
+                        <Border Background="#7289DA" CornerRadius="6" Margin="8,0,0,0" 
+                                Padding="8,2" VerticalAlignment="Center">
+                            <TextBlock Text="LuauAPI" Foreground="#FFFFFF" FontSize="16" 
+                                     FontFamily="Segoe UI" FontWeight="Bold" 
+                                     VerticalAlignment="Center"/>
+                        </Border>
+                        <Border Background="#43B581" CornerRadius="6" Margin="8,0,0,0" 
+                                Padding="8,2" VerticalAlignment="Center">
+                            <TextBlock Text="v1.0" Foreground="#FFFFFF" FontSize="11" FontWeight="SemiBold"/>
                         </Border>
                     </StackPanel>
 
-                    <!-- Window Controls -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,8,0">
-                        <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonMinimize" Click="buttonMinimize_Click" Margin="4,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,6,0">
+                        <Button Style="{StaticResource ModernButtonStyle}" Width="30" Height="30"
+                                Background="#2D2D2D" x:Name="buttonMinimize" Click="buttonMinimize_Click" Margin="2,0">
                             <Image Source="/Resources/Images/minimize.png" Width="12" Height="12"/>
                         </Button>
-                        <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonMaximize" Click="buttonMaximize_Click" Margin="4,0">
-                            <Image x:Name="maximizeImage" Source="/Resources/Images/maximize.png" 
-                                   Width="12" Height="12"/>
+                        <Button Style="{StaticResource ModernButtonStyle}" Width="30" Height="30"
+                                Background="#2D2D2D" x:Name="buttonMaximize" Click="buttonMaximize_Click" Margin="2,0">
+                            <Image Source="/Resources/Images/maximize.png" Width="12" Height="12"/>
                         </Button>
-                        <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonClose" Click="buttonClose_Click" Margin="4,0">
+                        <Button Style="{StaticResource ModernButtonStyle}" Width="30" Height="30"
+                                Background="#2D2D2D" x:Name="buttonClose" Click="buttonClose_Click" Margin="2,0">
                             <Image Source="/Resources/Images/close.png" Width="12" Height="12"/>
                         </Button>
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <!-- Main Content -->
-            <Grid Grid.Row="1" Margin="8">
-                <!-- Monaco Editor -->
-                <Border Background="#151522" CornerRadius="8">
-                    <wv2:WebView2 x:Name="script_editor" Margin="5,5,5,51"/>
+            <Grid Grid.Row="1" Margin="6">
+                <Border CornerRadius="12" Background="#1A1A1A" ClipToBounds="True">
+                    <Grid>
+                        <Border CornerRadius="12" Background="#1A1A1A">
+                            <wv2:WebView2 x:Name="script_editor" Margin="4,4,4,50"/>
+                        </Border>
+                    </Grid>
                 </Border>
 
-                <!-- Bottom Action Bar -->
-                <Border Background="#151522" 
-                        CornerRadius="8" 
+                <Border CornerRadius="10" 
                         VerticalAlignment="Bottom"
-                        Margin="0,0,0,5" 
-                        Padding="5"
+                        Margin="0,0,0,6" 
+                        Background="#1E1E1E"
                         HorizontalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonOpenFile" Click="buttonOpenFile_Click" Margin="2,0" ToolTip="Open File">
-                            <Image Source="/Resources/Images/openfile.png" Width="16" Height="16"/>
+                    <StackPanel Orientation="Horizontal" Margin="4">
+                        <Button Style="{StaticResource ModernButtonStyle}" Width="85" Height="34"
+                                Background="#43B581" x:Name="buttonExecute" Click="buttonExecute_Click" Margin="3,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Images/play.png" Width="14" Height="14" Margin="0,0,6,0"/>
+                                <TextBlock Text="Execute" FontSize="12" Foreground="#FFFFFF" FontWeight="SemiBold"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonSaveFile" Click="buttonSaveFile_Click" Margin="2,0" ToolTip="Save File">
-                            <Image Source="/Resources/Images/savefree.png" Width="16" Height="16"/>
+                        <Button Style="{StaticResource ModernButtonStyle}" Width="75" Height="34"
+                                Background="#2F3136" x:Name="buttonClear" Click="buttonClear_Click" Margin="3,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Images/clearfree.png" Width="14" Height="14" Margin="0,0,6,0"/>
+                                <TextBlock Text="Clear" FontSize="12" Foreground="#FFFFFF" FontWeight="SemiBold"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonClear" Click="buttonClear_Click" Margin="2,0" ToolTip="Clear">
-                            <Image Source="/Resources/Images/clearfree.png" Width="16" Height="16"/>
+                        <Button Style="{StaticResource ModernButtonStyle}" Width="85" Height="34"
+                                Background="#2F3136" x:Name="buttonOpenFile" Click="buttonOpenFile_Click" Margin="3,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Images/openfile.png" Width="14" Height="14" Margin="0,0,6,0"/>
+                                <TextBlock Text="Open" FontSize="12" Foreground="#FFFFFF" FontWeight="SemiBold"/>
+                            </StackPanel>
                         </Button>
-                        <Separator Width="1" Margin="5,5" Background="#2D2D3A"/>
-                        <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonInject" Click="buttonInject_Click" Margin="2,0" ToolTip="Inject">
-                            <Image x:Name="injectImage" Source="/Resources/Images/power-plug-outline.png" Width="16" Height="16"/>
+                        <Button Style="{StaticResource ModernButtonStyle}" Width="75" Height="34"
+                                Background="#2F3136" x:Name="buttonSaveFile" Click="buttonSaveFile_Click" Margin="3,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Images/savefree.png" Width="14" Height="14" Margin="0,0,6,0"/>
+                                <TextBlock Text="Save" FontSize="12" Foreground="#FFFFFF" FontWeight="SemiBold"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonShowScripts" Click="buttonShowScripts_Click" Margin="2,0" ToolTip="View Scripts">
-                            <Image Source="/Resources/Images/scroll.png" Width="16" Height="16"/>
+                        <Button Style="{StaticResource ModernButtonStyle}" Width="80" Height="34"
+                                Background="#2F3136" x:Name="buttonShowScripts" Click="buttonShowScripts_Click" Margin="3,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Images/scroll.png" Width="14" Height="14" Margin="0,0,6,0"/>
+                                <TextBlock Text="Scripts" FontSize="12" Foreground="#FFFFFF" FontWeight="SemiBold"/>
+                            </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonShowMultinstance" Click="buttonShowMultinstance_Click" Margin="2,0" ToolTip="Clients Management">
-                            <Image Source="/Resources/Images/clients.png" Width="16" Height="16"/>
-                        </Button>
-                        <Button Style="{StaticResource ModernButtonStyle}" Width="35" Height="35"
-                                x:Name="buttonExecute" Click="buttonExecute_Click" Margin="2,0" ToolTip="Execute">
-                            <Image Source="/Resources/Images/play.png" Width="16" Height="16"/>
+                        <Button Style="{StaticResource ModernButtonStyle}" Width="75" Height="34"
+                                Background="#ED4245" x:Name="buttonInject" Click="buttonInject_Click" Margin="3,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Resources/Images/power-plug.png" Width="16" Height="16" Margin="0,0,6,0"/>
+                                <TextBlock Text="Inject" FontSize="12" Foreground="#FFFFFF" FontWeight="SemiBold"/>
+                            </StackPanel>
                         </Button>
                     </StackPanel>
                 </Border>

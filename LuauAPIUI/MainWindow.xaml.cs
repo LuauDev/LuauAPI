@@ -73,19 +73,28 @@ namespace XenoUI
 			{
 				if (args.IsSuccess)
 				{
-					// Set Monaco editor theme colors
 					await script_editor.CoreWebView2.ExecuteScriptAsync(@"
 						monaco.editor.defineTheme('xenoTheme', {
 							base: 'vs-dark',
 							inherit: true,
 							rules: [],
 							colors: {
-								'editor.background': '#151522',
+								'editor.background': '#1A1A1A',
 								'editor.foreground': '#FFFFFF',
-								'editor.lineHighlightBackground': '#1E1E2E',
-								'editorCursor.foreground': '#FF3366',
-								'editor.selectionBackground': '#FF336640',
-								'editorLineNumber.foreground': '#666666'
+								'editor.lineHighlightBackground': '#242424',
+								'editorCursor.foreground': '#7289DA',
+								'editor.selectionBackground': '#7289DA40',
+								'editorLineNumber.foreground': '#666666',
+								'editor.findMatchBackground': '#7289DA40',
+								'editor.findMatchHighlightBackground': '#7289DA20',
+								'editorSuggestWidget.background': '#1E1E1E',
+								'editorSuggestWidget.border': '#2D2D2D',
+								'editorSuggestWidget.selectedBackground': '#2D2D2D',
+								'list.hoverBackground': '#2D2D2D',
+								'input.background': '#1E1E1E',
+								'scrollbarSlider.background': '#2D2D2D80',
+								'scrollbarSlider.hoverBackground': '#3D3D3D80',
+								'scrollbarSlider.activeBackground': '#3D3D3D'
 							}
 						});
 						monaco.editor.setTheme('xenoTheme');
@@ -130,7 +139,6 @@ namespace XenoUI
 		private void buttonMaximize_Click(object sender, RoutedEventArgs e)
 		{
 			WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-			maximizeImage.Source = new BitmapImage(new Uri(WindowState == WindowState.Maximized ? "pack://application:,,,/Resources/Images/normalize.png" : "pack://application:,,,/Resources/Images/maximize.png"));
 		}
 
 		private async void buttonClose_Click(object sender, RoutedEventArgs e)
@@ -237,7 +245,6 @@ namespace XenoUI
 				_clientsWindow.InjectRoblox();
 				buttonInject.IsEnabled = false;
 				buttonInject.ToolTip = "Already Injected";
-				injectImage.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Images/power-plug.png"));
 			}
 			catch (Exception ex)
 			{
