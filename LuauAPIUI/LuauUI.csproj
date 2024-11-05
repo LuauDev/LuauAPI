@@ -9,7 +9,7 @@
     <BaseOutputPath>$(SolutionDir)\build\</BaseOutputPath>
     <PackageOutputPath>$(SolutionDir)\build\</PackageOutputPath>
     <DocumentationFile></DocumentationFile>
-    <ApplicationIcon>Resources\Images\icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Images\newlogo.ico</ApplicationIcon>
     <OutputType>WinExe</OutputType>
     <UseWPF>True</UseWPF>
     <StartupObject>XenoUI.App</StartupObject>
