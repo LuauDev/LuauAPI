@@ -57,7 +57,7 @@
             <Border Background="#151522" CornerRadius="12,12,0,0">
                 <Grid>
                     <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-                        <Image Source="/Resources/Images/icon.ico" Height="24" Width="24"/>
+                        <Image Source="/Resources/Images/logonew.png" Height="48" Width="48"/>
                         <TextBlock Text="LuauAPI" Foreground="#FF3366" FontSize="18" 
                                  FontWeight="Bold" Margin="8,0,0,0" VerticalAlignment="Center"/>
                         <Border Background="#FF3366" CornerRadius="4" Margin="8,0,0,0" 
