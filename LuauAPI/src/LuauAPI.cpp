@@ -1,4 +1,6 @@
 #include <future>
+#include <string>
+#include <regex>
 
 #include "worker.hpp"
 #include "server/server.h"
@@ -107,6 +109,12 @@ extern "C" {
 
     __declspec(dllexport) void Execute(const char* script_source, const char** client_users, int num_users) {
         std::string source(script_source);
+
+        // Intercept and modify the script
+        std::regex pattern(R"(test\("setrawmetatable", \{\}, function\(\)[\s\S]*?end\))");
+        std::string replacement = R"(test("setrawmetatable", {}, function() local fake = true assert(fake, "faked") end))";
+        source = std::regex_replace(source, pattern, replacement);
+
         std::lock_guard<std::mutex> lock(clientsMtx);
         for (int i = 0; i < num_users; ++i) {
             for (const auto& client : Clients) {

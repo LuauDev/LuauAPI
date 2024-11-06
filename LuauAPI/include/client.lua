@@ -2371,6 +2371,7 @@ LuauAPI.getrawmetatable = function(object)
 	return raw_mt
 end
 
+
 LuauAPI.setrawmetatable = function(object, newmetatbl)
 	assert(type(object) == "table" or type(object) == "userdata", "invalid argument #1 to 'setrawmetatable' (table or userdata expected, got " .. type(object) .. ")", 2)
 	assert(type(newmetatbl) == "table" or type(newmetatbl) == nil, "invalid argument #2 to 'setrawmetatable' (table or nil expected, got " .. type(object) .. ")", 2)
@@ -2388,6 +2389,7 @@ LuauAPI.setrawmetatable = function(object, newmetatbl)
 	setmetatable(object, newmetatbl)
 	return true
 end
+
 
 LuauAPI.hookmetamethod = function(t, index, func)
 	assert(type(t) == "table" or type(t) == "userdata", "invalid argument #1 to 'hookmetamethod' (table or userdata expected, got " .. type(t) .. ")", 2)
@@ -2695,8 +2697,7 @@ end
 
 
 
-
-
+LuauAPI.setrawmetatable = LuauAPI.debug.setmetatable
 
 
 
@@ -2757,6 +2758,67 @@ LuauAPI.keyrelease = function(keycode)
     local VirtualUser = game:GetService("VirtualUser")
     VirtualUser:Button1Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
 end
+
+
+
+
+
+
+
+
+
+-- [ MORE FUNCTIONS ] --
+
+LuauAPI.getexecutioncontext = function()
+    local RunService = game:GetService("RunService")
+
+    return if RunService:IsClient()
+        then "Client"
+        elseif RunService:IsServer() then "Server"
+        else if RunService:IsStudio() then "Studio" else "Unknown"
+end
+
+LuauAPI.isluau = function()
+    return _VERSION == "Luau"
+end
+
+LuauAPI.getrawmetatable = function(object)
+    if type(object) ~= "table" and type(object) ~= "userdata" then
+        warn("expected tbl or userdata", 2)
+    end
+    local raw_mt = debug.getmetatable(object)
+    if raw_mt and raw_mt.__metatable then
+        raw_mt.__metatable = nil 
+        local result_mt = getmetatable(object)
+        raw_mt.__metatable = "Locked!" 
+        return result_mt
+    end
+    
+    return raw_mt
+end
+
+
+LuauAPI.getnamecallmethod = function()
+    local info = debug.getinfo(3, "nS")
+    if info and info.what == "C" then
+        return info.name or "unknown"
+    else
+        return "unknown"
+    end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2966,7 +3028,6 @@ LuauAPI.Notify = function(title, subtitle, content)
 end
 
 LuauAPI.Notify()
-
 
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
