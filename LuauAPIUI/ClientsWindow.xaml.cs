@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Net.Http;
+using System.Diagnostics;
 
 namespace XenoUI
 {
@@ -36,6 +37,8 @@ namespace XenoUI
 		public List<ClientInfo> ActiveClients { get; private set; } = new();
 
 		public string SupportedVersion { get; private set; } = "";
+
+		private bool _isInjected;
 
 		public ClientsWindow()
 		{
@@ -144,9 +147,33 @@ namespace XenoUI
 
 		private void buttonClose_Click(object sender, RoutedEventArgs e) => Hide();
 
-		public void InjectRoblox()
+		public async void InjectRoblox()
 		{
-			Initialize();
+			if (!IsRobloxOpen())
+			{
+				MessageBox.Show("Roblox is not open. Please start Roblox before injecting.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
+			if (IsInjected())
+			{
+				MessageBox.Show("Already injected.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+				return;
+			}
+
+			await Task.Run(() => Initialize());
+			_isInjected = true;
+			MessageBox.Show("Successfully injected.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+		}
+
+		private bool IsRobloxOpen()
+		{
+			return Process.GetProcessesByName("RobloxPlayerBeta").Any();
+		}
+
+		private bool IsInjected()
+		{
+			return _isInjected;
 		}
 	}
 }
